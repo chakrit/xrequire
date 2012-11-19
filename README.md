@@ -121,6 +121,13 @@ and generate coverage reports by running
 $ make cover
 ```
 
+#### Things to do:
+
+* Subfolder requires.
+* Support for folder requires without needing to implement `index.js`.
+* More inflection tests and validation.
+* Direct name transform function.
+
 # LICENSE
 
 BSD
