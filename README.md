@@ -1,11 +1,12 @@
-
 # XREQUIRE
+
+XREQUIRE is your `index.js` folder loader swiss army knife.
 
 ```sh
 $ npm install xrequire --save
 ```
 
-XREQUIRE is your `index.js` folder loader swiss army knife. Obligatory feature checklist (and API documentation all in one):
+#### Obligatory feature checklist (and API documentation all in one):
 
 * Implement your `index.js` in a single line:
 
@@ -19,7 +20,7 @@ require('xrequire')(module)
 module.exports = require('xrequire')(__dirname)
 ```
 
-* Post-prodcess modules on the fly by passing a `map` function:
+* Post-process modules on the fly by passing a `map` function:
 
 ```js
 require('xrequire')(module, function(exports, name, basename) {
@@ -35,7 +36,6 @@ require('xrequire')(module, function(exports, name, basename) {
 ```
 
 * Filters module by passing a `filter` function:
-* Or `reject` works too:
 
 ```js
 require('xrequire')(module,
@@ -69,7 +69,7 @@ require('xrequire')(module, { append: 'Role' });
 ```
 
 * Transform your file names into ClassNames dasherized-name or even "Titleized Long Strings Keys" via
-  an integrated [pksunkara/inflect] hook:
+  an integrated [pksunkara/inflect](https://github.com/pksunkara/inflect) hook:
 
 ```js
 require('xrequire')(module, { inflect: 'classify' }); // or ...
@@ -78,7 +78,7 @@ require('xrequire')(module, { inflect: 'titleize' }); // or ...
 // other i.hooks works too.
 ```
 
-* The last two options together provide some nice naming capability:
+* The last two options together provide some nice naming capability out of the box:
 
 ```js
 require('xrequire')(module, { inflect: 'classify', append: 'Role' })
@@ -105,6 +105,20 @@ $ make cover
 , inflect: ''   // string   : name of inflection method to use
 , magic: true   // boolean  : set to false to prevent module.exports magic
 }
+```
+
+# DEVELOPMENT
+
+Test `xrequire` by running
+
+```sh
+$ make test
+```
+
+and generate coverage reports by running
+
+```sh
+$ make cover
 ```
 
 # LICENSE
