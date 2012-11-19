@@ -78,3 +78,17 @@ require('xrequire')(module, { inflect: 'titleize' }); // or ...
 $ make cover
 ```
 
+# OPTIONS
+
+```js
+{ filter: null  // function : return true to include only wanted modules
+, reject: null  // function : return true to reject only select modules
+, map: null     // function : transform module exports before re-exporting it
+
+, prepend: ''   // string   : prepend to module names before exported
+, append: ''    // string   : append to module names before exported
+, inflect: ''   // string   : name of inflection method to use
+, magic: true   // boolean  : set to false to prevent module.exports magic
+}
+```
+
