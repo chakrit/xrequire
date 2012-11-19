@@ -1,7 +1,11 @@
 
 # XREQUIRE
 
-xrequire is your `index.js` folder loader swiss army knife. Obligatory feature checklist (and API documentation all in one):
+```sh
+$ npm install xrequire --save
+```
+
+XREQUIRE is your `index.js` folder loader swiss army knife. Obligatory feature checklist (and API documentation all in one):
 
 * Implement your `index.js` in a single line:
 
