@@ -18,6 +18,7 @@ module.exports = (function() {
     }
 
 
+  // TODO: Allow options to be passed as a function (=== options.map)
   function xrequire(mod, options) {
     if (!mod ||
       (typeof mod !== 'string' && 
@@ -54,6 +55,7 @@ module.exports = (function() {
       result[name] = mod;
     });
 
+    // TODO: Assign module.exports if module passed
     return result;
   }
 
