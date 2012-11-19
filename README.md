@@ -95,10 +95,12 @@ $ make cover
 
 # OPTIONS
 
+Default values are as follows:
+
 ```js
-{ filter: null  // function : return true to include only wanted modules
-, reject: null  // function : return true to reject only select modules
-, map: null     // function : transform module exports before re-exporting it
+{ filter: function(name) { return true; }     // function : return true to include only wanted modules
+, reject: function(name) { return false; }    // function : return true to reject select modules
+, map: function(exports) { return exports; }  // function : transform module exports (useful w/ function() exports)
 
 , prepend: ''   // string   : prepend to module names before exported
 , append: ''    // string   : append to module names before exported
