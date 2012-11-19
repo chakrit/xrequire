@@ -101,7 +101,7 @@ module.exports = (function() {
     // test template
     var itShouldExportTree = function(tree, badTree) {
       for (var key in tree) (function(content, key) {
-        it('should include `' + key + '` module.', function() {
+        it('should include `' + key + '` module exports.', function() {
           var result = this.run();
           expect(result).to.have.property(key).that.is.eq(content);
         });
@@ -110,7 +110,7 @@ module.exports = (function() {
 
     var itShouldNotExportKeys = function(keys) {
       for (var i = 0; i < keys.length;i ++) (function(key) {
-        it('should not include `' + key + '` module.', function() {
+        it('should not include `' + key + '` key.', function() {
           var result = this.run();
           expect(result).to.not.have.property(key);
         });
