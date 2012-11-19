@@ -4,12 +4,15 @@ BIN = ./node_modules/.bin
 default: test
 
 clean:
-	@git clean -xdf
+	rm -Rf cover
+	rm -Rf coverage
+	rm -Rf html-report
 
 test:
 	@$(BIN)/mocha --reporter spec test.js
 
 cover: instrument
+	@echo open html-report/index.html to view coverage report.
 	@COVER=1 $(BIN)/mocha --reporter mocha-istanbul
 
 instrument:
