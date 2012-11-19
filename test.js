@@ -15,8 +15,6 @@ module.exports = (function() {
   var XREQ_PATH = './xrequire'
   if (process.env.COVER) {
     XREQ_PATH = './cover/xrequire';
-
-    //expect(__coverage__).to.exist
   }
 
   // the tests
@@ -58,6 +56,10 @@ module.exports = (function() {
 
       it('should have a map property which defaults to null', function() {
         expect(this.defs).to.have.property('map').that.is.null
+      });
+
+      it('should have a magic property which defaults to true', function() {
+        expect(this.defs).to.have.property('magic').that.is.true
       });
     });
 
@@ -194,6 +196,48 @@ module.exports = (function() {
       , b: './dud'
       , long_name: './dud'
       });
+
+    // special cased options
+    describe('result with function passed as option', function() {
+      before(function() { this.options = function(map) { return require('./dud'); }; });
+      after(function() { delete this.options; });
+
+      itShouldExportTree(
+        { a: './dud'
+        , b: './dud'
+        , long_name: './dud'
+        });
+    });
+
+    describe('result when a module object is given', function() {
+      before(function() {
+        this._run = this.run;
+        this.run = function() { return require('./sample'); };
+      });
+      after(function() {
+        this.run = this._run;
+        delete this._run;
+      });
+
+      itShouldExportTree(
+        { a: './sample/a'
+        , b: './sample/b'
+        , long_name: './sample/long_name'
+        });
+
+      describe('but magic option is set to false', function() {
+        before(function() {
+          this._magic = this.xrequire.defaults.magic;
+          this.xrequire.defaults.magic = false;
+        });
+        after(function() {
+          this.xrequire.defaults.magic = this._magic;
+          delete this._magic;
+        });
+
+        itShouldNotExportKeys(['a', 'b', 'long_name']);
+      });
+    });
 
   });
 

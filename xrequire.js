@@ -8,37 +8,45 @@ module.exports = (function() {
     , fs = require('fs');
 
   var defaults =
-    { filter: null
-    , reject: null
-    , map: null
+    { filter: null  // function : return true to include only wanted modules
+    , reject: null  // function : return true to reject only select modules
+    , map: null     // function : transform module exports before re-exporting it
 
-    , prepend: ''
-    , append: ''
-    , inflect: ''
+    , prepend: ''   // string   : prepend to module names before exported
+    , append: ''    // string   : append to module names before exported
+    , inflect: ''   // string   : name of inflection method to use
+    , magic: true   // boolean  : set to false to prevent module.exports magic
     }
 
 
-  // TODO: Allow options to be passed as a function (=== options.map)
   function xrequire(mod, options) {
-    if (!mod ||
-      (typeof mod !== 'string' && 
-      typeof mod.path !== 'string')) {
+    if (typeof mod !== 'string' && (!mod || typeof mod.filename !== 'string')) {
       throw new Error('module argument must be the module object or __dirname');
+    }
+
+    // assume map function if a function is given
+    if (options && typeof options === 'function') {
+      options = { map: options };
     }
 
     options = _.extend({ }, xrequire.defaults, options);
 
-    var dirname = (typeof mod === 'string' ? mod : path.dirname(mod.path))
+    var dirname = (typeof mod === 'string' ? mod : path.dirname(mod.filename))
       , files = fs.readdirSync(dirname)
       , result = { };
 
     _(files).forEach(function(file) {
-      var filePath = path.join(dirname, file)
+      var filePath = path.resolve(path.join(dirname, file))
+        , stats = fs.statSync(filePath)
         , extension = path.extname(file)
         , name = path.basename(file, extension);
 
-      // filters
+      // built-in defaults
+      if (stats.isDirectory()) return;
       if (name === 'index') return;
+      if (name[0] === '.') return;
+
+      // user filters
       if (options.filter && !options.filter(name)) return;
       if (options.reject && options.reject(name)) return;
 
@@ -48,17 +56,19 @@ module.exports = (function() {
       if (options.append) name = name + options.append;
 
       // maps
-      var mod = require('./' + filePath);
+      var fileExports = require(filePath);
       if (options.map)
-        mod = options.map(mod, name, path.basename(file, extension));
+        fileExports = options.map(fileExports, name, path.basename(file, extension));
 
-      result[name] = mod;
+      result[name] = fileExports;
     });
 
-    // TODO: Assign module.exports if module passed
+    // auto-assign exports object if module passed
+    if (options.magic && typeof mod !== 'string' && typeof mod.filename === 'string')
+      mod.exports = result;
+
     return result;
   }
-
 
   xrequire.defaults = defaults;
   return xrequire;

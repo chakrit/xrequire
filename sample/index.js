@@ -1,1 +1,6 @@
-throw new Error('this file should not be included for the test.');
+
+// NOTE: This file should not be included in tests,
+//   it is only added here to allow testing global module object
+//   from inside a real index.js module
+require('../xrequire')(module);
+
