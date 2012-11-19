@@ -1,0 +1,14 @@
+coverage
+coverage.html
+lib-cov
+.DS_Store
+
+# node.js standard
+node_modules
+npm-debug.log
+v8.log
+
+# test artifacts
+cover/
+coverage/
+
