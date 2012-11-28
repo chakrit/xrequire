@@ -9,4 +9,6 @@
   * after map -- after map()
   * after inflect -- after inflect()
   * after xrequire -- all files finished
+* Ability to only require after a getter call has been attempted on the exported object
+  * Avoids some circular dependencies issue
 
