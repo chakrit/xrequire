@@ -6,6 +6,7 @@ module.exports = (function() {
   var _ = require('underscore')
     , chai = require('chai')
     , sinon = require('sinon')
+    , EventEmitter = require('events').EventEmitter
     , expect = chai.expect;
 
   chai.use(require('sinon-chai'));
@@ -14,16 +15,35 @@ module.exports = (function() {
   // use files in cover/ folder in coverage mode
   var XREQ_PATH = './xrequire'
   if (process.env.COVER) {
-    XREQ_PATH = './cover/xrequire';
+    XREQ_PATH = './lib-cov/xrequire.js';
   }
 
-  // the tests
+  // general interface tests
   describe('xrequire module', function() {
     before(function() { this.xrequire = require(XREQ_PATH); });
     after(function() { delete this.xrequire; });
 
     it('should exports a function', function() {
       expect(this.xrequire).to.be.a('function');
+    });
+
+    describe('events support', function() {
+      it('should exports an `_emitter` EventEmitter property', function() {
+        expect(this.xrequire).to.have.property('_emitter')
+          .that.is.instanceOf(EventEmitter);
+      });
+
+      it('should exports an `on` function', function() {
+        expect(this.xrequire.on).to.be.a('function');
+      });
+
+      it('should exports an `emit` function', function() {
+        expect(this.xrequire.emit).to.be.a('function');
+      });
+
+      it('should exports a `removeListener` function', function() {
+        expect(this.xrequire.removeListener).to.be.a('function');
+      });
     });
 
     describe('defaults hash', function() {
@@ -75,6 +95,7 @@ module.exports = (function() {
 
   });
 
+
   describe('xrequire', function() {
     before(function() {
       this.xrequire = require('./xrequire')
@@ -97,8 +118,27 @@ module.exports = (function() {
           delete require.cache[key]
     });
 
+    describe('events emitter', function() {
+      it('should emits a `require` event for each required module', function(done) {
+        var me = this
+          , count = 3; // a, b and long_name
 
-    // test template
+        function onRequire(path, name) {
+          expect(path).to.match(/(a|b|long_name)\.js/i);
+          expect(name).to.match(/(a|b|long_name)/i);
+
+          if (!--count) {
+            me.xrequire.removeListener('require', onRequire);
+            done()
+          }
+        }
+
+        this.xrequire.on('require', onRequire);
+        this.run()
+      });
+    });
+
+    // templated tests
     var itShouldExportTree = function(tree, badTree) {
       for (var key in tree) (function(content, key) {
         it('should include `' + key + '` module exports.', function() {

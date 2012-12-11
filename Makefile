@@ -6,7 +6,6 @@ default: test
 
 clean:
 	rm -Rf lib-cov
-	rm -Rf coverage
 	rm -Rf html-report
 
 test:

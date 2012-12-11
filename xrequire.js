@@ -5,7 +5,8 @@ module.exports = (function() {
   var _ = require('underscore')
     , i = require('i')()
     , path = require('path')
-    , fs = require('fs');
+    , fs = require('fs')
+    , EventEmitter = require('events').EventEmitter;
 
   var defaults =
     { filter: null  // function : return true to include only wanted modules
@@ -55,6 +56,8 @@ module.exports = (function() {
       if (options.prepend) name = options.prepend + name;
       if (options.append) name = name + options.append;
 
+      xrequire.emit('require', filePath, name);
+
       // maps
       var fileExports = require(filePath);
       if (options.map)
@@ -70,6 +73,15 @@ module.exports = (function() {
     return result;
   }
 
+  // proxied EventEmitter support
+  var emitter = new EventEmitter();
+  for (var key in EventEmitter.prototype) {
+    if (typeof emitter[key] !== 'function') continue;
+
+    xrequire[key] = _.bind(emitter[key], emitter);
+  }
+
+  xrequire._emitter = emitter;
   xrequire.defaults = defaults;
   return xrequire;
 
