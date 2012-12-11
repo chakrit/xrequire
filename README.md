@@ -1,3 +1,6 @@
+
+[![Travis CI badge](https://secure.travis-ci.org/chakrit/xrequire.png)](http://traivs-ci.org/chakrit/xrequire)
+
 # XREQUIRE
 
 XREQUIRE is your `index.js` folder loader swiss army knife.
