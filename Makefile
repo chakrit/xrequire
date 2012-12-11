@@ -1,6 +1,6 @@
 
 BIN = ./node_modules/.bin
-TEST_OPTS = --reporter spec --globals __coverage__
+TEST_OPTS = --reporter spec --globals __coverage__ --timeout 100
 
 default: test
 
