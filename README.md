@@ -1,5 +1,5 @@
 
-[![Travis CI badge](https://secure.travis-ci.org/chakrit/xrequire.png)](http://travis-ci.org/chakrit/xrequire)
+[![Travis CI badge](https://api.travis-ci.org/chakrit/xrequire.png?branch=master)](http://travis-ci.org/chakrit/xrequire)
 
 # XREQUIRE
 
