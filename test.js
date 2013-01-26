@@ -98,7 +98,7 @@ module.exports = (function() {
 
   describe('xrequire', function() {
     before(function() {
-      this.xrequire = require('./xrequire')
+      this.xrequire = require(XREQ_PATH)
       this.run = function() {
         return this.xrequire('./sample', this.options);
       }.bind(this);

@@ -90,7 +90,8 @@ require('xrequire')(module, { inflect: 'classify', append: 'Role' })
 // we'll get AdminRole, StaffRole and GuestRole all neat and clean :)
 ```
 
-* Implemented in pure JS with 100% test coverage (yeah, there wasn't much to be tested anyway.)
+* Implemented in pure JS with high test coverage
+  (yeah, there wasn't much to be tested anyway.)
 
 ```sh
 $ make cover
