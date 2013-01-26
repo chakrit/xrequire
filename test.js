@@ -78,6 +78,10 @@ module.exports = (function() {
         expect(this.defs).to.have.property('map').that.is.null;
       });
 
+      it('should have a tap property which defaults to null', function() {
+        expect(this.defs).to.have.property('tap').that.is.null;
+      });
+
       it('should have a magic property which defaults to true', function() {
         expect(this.defs).to.have.property('magic').that.is.true;
       });
@@ -238,6 +242,41 @@ module.exports = (function() {
       });
 
     // special cased options
+    describe('tap function', function() {
+      before(function() {
+        var me = this;
+        this.tappedItems = [];
+        this.tap = function(obj) { me.tappedItems.push(obj); };
+
+        this.runAndCheck = function() {
+          var result = this.run();
+          for (var key in result) {
+            if (!result.hasOwnProperty(key)) continue;
+            expect(this.tappedItems).to.include(result[key]);
+          }
+        };
+      });
+      after(function() {
+        delete this.runAndCheck;
+        delete this.tap;
+        delete this.count;
+        delete this.items;
+      });
+
+      it('should be invoked for each required module when set as options', function() {
+        this.options = { tap: this.tap };
+        this.runAndCheck();
+        delete this.options;
+      });
+
+      it('should be invoked for each required module when set as defaults', function() {
+        this._defaults = this.xrequire.defaults;
+        this.xrequire.defaults = { tap: this.tap };
+        this.runAndCheck();
+        this.xrequire.defaults = this._defaults;
+      });
+    });
+
     describe('result with function passed as option', function() {
       before(function() { this.options = function(map) { return require('./dud'); }; });
       after(function() { delete this.options; });

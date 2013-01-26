@@ -11,6 +11,7 @@ module.exports = (function() {
   var defaults =
     { filter: null  // function : return true to include only wanted modules
     , reject: null  // function : return true to reject only select modules
+    , tap: null     // function : access the exported object as they are loaded
     , map: null     // function : transform module exports before re-exporting it
 
     , prepend: ''   // string   : prepend to module names before exported
@@ -58,10 +59,12 @@ module.exports = (function() {
 
       xrequire.emit('require', filePath, name);
 
-      // maps
-      var fileExports = require(filePath);
-      if (options.map)
-        fileExports = options.map(fileExports, name, path.basename(file, extension));
+      // taps and maps
+      var fileExports = require(filePath)
+        , basename = path.basename(file, extension);
+
+      if (options.tap) options.tap(fileExports, name, basename);
+      if (options.map) fileExports = options.map(fileExports, name, basename);
 
       result[name] = fileExports;
     });
