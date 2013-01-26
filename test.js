@@ -15,7 +15,7 @@ module.exports = (function() {
   // use files in cover/ folder in coverage mode
   var XREQ_PATH = './xrequire'
   if (process.env.COVER) {
-    XREQ_PATH = './lib-cov/xrequire.js';
+    XREQ_PATH = './xrequire-cov';
   }
 
   // general interface tests
