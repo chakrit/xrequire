@@ -8,18 +8,17 @@ clean:
 	rm -Rf lib-cov
 	rm -Rf html-report
 
-test:
+test: node_modules
 	@$(BIN)/mocha $(TEST_OPTS) test.js
-watch:
+watch: node_modules
 	@$(BIN)/mocha $(TEST_OPTS) --watch test.js
 
 cover: instrument
 	@echo open html-report/index.html to view coverage report.
 	@COVER=1 $(BIN)/mocha $(TEST_OPTS) --reporter mocha-istanbul test.js
 
-instrument:
-	@mkdir -p lib-cov/
-	@$(BIN)/istanbul instrument --variable global.__coverage__ --output lib-cov/xrequire.js --no-compact xrequire.js
+node_modules:
+	@npm install
 
 .PHONY: instrument all default test watch cover clean
 
