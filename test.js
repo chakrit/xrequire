@@ -59,37 +59,37 @@ module.exports = (function() {
       });
 
       it('should have an append property which defaults to empty string', function() {
-        expect(this.defs).to.have.property('append').that.is.a('string')
+        expect(this.defs).to.have.property('append').that.is.a('string');
       });
 
       it('should have an inflect property which defaults to `identity`', function() {
-        expect(this.defs).to.have.property('inflect').that.is.a('string')
+        expect(this.defs).to.have.property('inflect').that.is.a('string');
       });
 
       it('should have a filter property which defaults to null', function() {
-        expect(this.defs).to.have.property('filter').that.is.null
+        expect(this.defs).to.have.property('filter').that.is.null;
       });
 
       it('should have a reject property which defaults to null', function() {
-        expect(this.defs).to.have.property('reject').that.is.null
+        expect(this.defs).to.have.property('reject').that.is.null;
       });
 
       it('should have a map property which defaults to null', function() {
-        expect(this.defs).to.have.property('map').that.is.null
+        expect(this.defs).to.have.property('map').that.is.null;
       });
 
       it('should have a magic property which defaults to true', function() {
-        expect(this.defs).to.have.property('magic').that.is.true
+        expect(this.defs).to.have.property('magic').that.is.true;
       });
     });
 
     describe('exported function', function() {
       it('should throws if module argument is missing', function() {
-        expect(function() { this.xrequire(false); }.bind(this)).to.throw(/argument/)
+        expect(function() { this.xrequire(false); }.bind(this)).to.throw(/argument/);
       });
 
       it('should throws if module argument is not a string and does not looks like a module', function() {
-        expect(function() { this.xrequire({ }); }.bind(this)).to.throw(/argument/)
+        expect(function() { this.xrequire({ }); }.bind(this)).to.throw(/argument/);
       });
     });
 
