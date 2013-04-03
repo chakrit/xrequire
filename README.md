@@ -99,7 +99,7 @@ $ make cover
 
 # OPTIONS
 
-Default values are as follows:
+Default option values are as follows:
 
 ```js
 { filter: function(name) { return true; }     // function : return true to include only wanted modules
@@ -112,6 +112,22 @@ Default values are as follows:
 , magic: true   // boolean  : set to false to prevent module.exports magic
 }
 ```
+
+# EVENTS
+
+The xrequire main export object mixes in methods from an EventEmitter and will emits a
+`require` event whenever a file is about to be `require`-ed. You can add a listener to
+this event to adds logging, for example.
+
+```js
+var xrequire = require('xrequire');
+
+xrequire.on('require', function(filePath, name) {
+});
+```
+
+The handler is given two arguments, the resolved path of the file being required and the
+extracted name that would be used as key of the resulting hash.
 
 # DEVELOPMENT
 
