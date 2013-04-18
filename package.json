@@ -1,6 +1,6 @@
 {
   "name": "xrequire",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "eXtended Require: Folder requires and index.js toolkit.",
   "main": "index.js",
   "scripts": {
