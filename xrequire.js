@@ -14,6 +14,9 @@ module.exports = (function() {
     , tap: null     // function : access the exported object as they are loaded
     , map: null     // function : transform module exports before re-exporting it
 
+    , extensions: 'js|coffee|litcoffee|node'
+                    // string    : pipe-separated list (or array) of valid file extensions
+
     , prepend: ''   // string   : prepend to module names before exported
     , append: ''    // string   : append to module names before exported
     , inflect: ''   // string   : name of inflection method to use
@@ -31,7 +34,10 @@ module.exports = (function() {
       options = { map: options };
     }
 
-    options = _.extend({ }, xrequire.defaults, options);
+    options = _.extend({ }, defaults, xrequire.defaults, options);
+    options.extensions = options.extensions instanceof Array ?
+      options.extensions.slice() :
+      options.extensions.split('|');
 
     var dirname = (typeof mod === 'string' ? mod : path.dirname(mod.filename))
       , files = fs.readdirSync(dirname)
@@ -47,6 +53,7 @@ module.exports = (function() {
       if (stats.isDirectory()) return;
       if (name === 'index') return;
       if (name[0] === '.') return;
+      if (options.extensions.indexOf(extension.substr(1)) < 0) return;
 
       // user filters
       if (options.filter && !options.filter(name)) return;
@@ -85,7 +92,7 @@ module.exports = (function() {
   }
 
   xrequire._emitter = emitter;
-  xrequire.defaults = defaults;
+  xrequire.defaults = _.clone(defaults);
   return xrequire;
 
 })();

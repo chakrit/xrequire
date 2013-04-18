@@ -82,6 +82,14 @@ module.exports = (function() {
         expect(this.defs).to.have.property('tap').that.is.null;
       });
 
+      it('should have an extensions property with sane defaults', function() {
+        expect(this.defs).to.have.property('extensions')
+          .that.include('js')
+          .and.include('coffee')
+          .and.include('litcoffee')
+          .and.include('node');
+      });
+
       it('should have a magic property which defaults to true', function() {
         expect(this.defs).to.have.property('magic').that.is.true;
       });
@@ -240,6 +248,8 @@ module.exports = (function() {
       , b: './dud'
       , long_name: './dud'
       });
+
+    describeConfiguration('empty extensions', { extensions: '' }, null, ['a', 'b', 'long_name']);
 
     // special cased options
     describe('tap function', function() {

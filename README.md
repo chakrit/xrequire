@@ -106,6 +106,8 @@ Default option values are as follows:
 , reject: function(name) { return false; }    // function : return true to reject select modules
 , map: function(exports) { return exports; }  // function : transform module exports (useful w/ function() exports)
 
+, extensions: 'js|coffee|litcoffee|node' // string or array : valid file extensions
+
 , prepend: ''   // string   : prepend to module names before exported
 , append: ''    // string   : append to module names before exported
 , inflect: ''   // string   : name of inflection method to use
